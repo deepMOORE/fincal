@@ -1,0 +1,20 @@
+.justify-content-between {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    margin-bottom: 5px;
+}
+
+rect {
+    transition: fill 0.25s linear;
+}
+
+rect:hover {
+    fill: #272a2b;
+}
+
+.calc-result {
+    font-size: 70px;
+}
