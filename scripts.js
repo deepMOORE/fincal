@@ -26,7 +26,7 @@ document.querySelector('.mat-disc-but').addEventListener('click', function (even
             break;
         }
         case 'n': {
-            result = 'n = ' + round(((fv / pv - 1) / n) * (1 / r))
+            result = 'n = ' + round(((fv / pv - 1)) * (1 / r))
             break;
         }
     }
