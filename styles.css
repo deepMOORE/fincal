@@ -22,3 +22,7 @@ rect:hover {
 .container {
     margin-bottom: 20px;
 }
+
+.dump {
+    border: aliceblue;
+}

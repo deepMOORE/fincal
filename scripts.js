@@ -142,8 +142,54 @@ document.querySelector('.ss-n-but').addEventListener('click', function (event) {
     document.querySelector('.result-ss-n').innerHTML = result
 });
 
+document.querySelector('.ss-p-but').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    let ns = document.querySelector('.ss-p-n').value.split(';');
+    let ds = document.querySelector('.ss-p-d').value.split(';');
+
+    let fv = getVariable('.ss-p-fv');
+    let pv = getVariable('.ss-p-pv');
+
+    if (ns.length !== ds.length) {
+        return;
+    }
+
+    let nullableVariable = findNanTwoVar(fv, pv);
+
+    let mult = 1;
+    for (let i = 0; i < ds.length; i++) {
+        mult *= (1 + (ns[i] / 360) * (ds[i] / 100));
+    }
+
+    let result = null;
+    switch (nullableVariable) {
+        case 'fv': {
+            result = 'FV = ' + round(pv *mult)
+
+            break;
+        }
+        case 'pv': {
+            result = 'PV = ' + round(fv / mult)
+            break;
+        }
+    }
+
+    document.querySelector('.result-ss-p').innerHTML = result
+});
+
 function round(x) {
     return Math.round(x * 100) / 100;
+}
+
+function findNanTwoVar(fv, pv) {
+    if (isNaN(fv)) {
+        return 'fv';
+    }
+
+    if (isNaN(pv)) {
+        return 'pv';
+    }
 }
 
 function findNan(fv, pv, n, r) {
