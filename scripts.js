@@ -26,7 +26,7 @@ document.querySelector('.mat-disc-but').addEventListener('click', function (even
             break;
         }
         case 'n': {
-            result = 'n = ' + round(((fv / pv - 1) / n) * (1 / r))
+            result = 'n = ' + round((((fv / pv - 1) / n) * (1 / r)) * 360)
             break;
         }
     }
@@ -62,7 +62,7 @@ document.querySelector('.mat-disc-kom').addEventListener('click', function (even
             break;
         }
         case 'n': {
-            result = 'n = ' + round(((1 - pv / fv)) * (1 / d))
+            result = 'n = ' + round((((1 - pv / fv)) * (1 / d)) * 360)
             break;
         }
     }
@@ -98,7 +98,7 @@ document.querySelector('.ss-simple-but').addEventListener('click', function (eve
             break;
         }
         case 'n': {
-            result = 'n = ' + round((Math.log(fv / pv)) / (1 + r))
+            result = 'n = ' + round(((Math.log(fv / pv)) / (1 + r)) * 360)
             break;
         }
     }
@@ -134,7 +134,7 @@ document.querySelector('.ss-n-but').addEventListener('click', function (event) {
             break;
         }
         case 'n': {
-            result = 'n = ' + round((Math.log(fv / pv)) / j)
+            result = 'n = ' + round(((Math.log(fv / pv)) / j) * 360)
             break;
         }
     }
@@ -176,6 +176,114 @@ document.querySelector('.ss-p-but').addEventListener('click', function (event) {
     }
 
     document.querySelector('.result-ss-p').innerHTML = result
+});
+
+document.querySelector('.su-simple-but').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    let fv = getVariable('.su-simple-fv');
+    let pv = getVariable('.su-simple-pv');
+    let n = getVariable('.su-simple-n');
+    let r = getVariable('.su-simple-r');
+
+    n = n / 360;
+    r = r / 100;
+
+    let nullableVariable = findNan(fv, pv, n, r);
+
+    let result = null;
+    switch (nullableVariable) {
+        case 'fv': {
+            result = 'FV = ' + round(pv / Math.pow((1 - r), n))
+            break;
+        }
+        case 'pv': {
+            result = 'PV = ' + round(fv * Math.pow((1 - r), n))
+            break;
+        }
+        case 'r': {
+            result = 'r = ' + round((1 - Math.pow(pv / fv, 1 / n)) * 100)
+            break;
+        }
+        case 'n': {
+            result = 'n = ' + round(((Math.log(pv / fv)) / Math.log(1 - r)) * 360)
+            break;
+        }
+    }
+
+    document.querySelector('.result-su-simple').innerHTML = result
+});
+
+document.querySelector('.su-n-but').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    let fv = getVariable('.su-n-fv');
+    let pv = getVariable('.su-n-pv');
+    let j = getVariable('.su-n-j');
+    let n = getVariable('.su-n-n');
+
+    n = n / 360;
+    j = j / 100;
+
+    let nullableVariable = findNan(fv, pv, n, j);
+
+    let result = null;
+    switch (nullableVariable) {
+        case 'fv': {
+            result = 'FV = ' + round(pv / Math.exp(j * n))
+            break;
+        }
+        case 'pv': {
+            result = 'PV = ' + round(fv * Math.exp(j * n))
+            break;
+        }
+        case 'r': {
+            result = 'j = ' + round((Math.log(pv / fv)) / n)
+            break;
+        }
+        case 'n': {
+            result = 'n = ' + round((Math.log(pv / fv)) / j)
+            break;
+        }
+    }
+
+    document.querySelector('.result-su-n').innerHTML = result
+});
+
+document.querySelector('.su-p-but').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    let ns = document.querySelector('.su-p-n').value.split(';');
+    let ds = document.querySelector('.su-p-d').value.split(';');
+
+    let fv = getVariable('.su-p-fv');
+    let pv = getVariable('.su-p-pv');
+
+    if (ns.length !== ds.length) {
+        return;
+    }
+
+    let nullableVariable = findNanTwoVar(fv, pv);
+
+    let mult = 1;
+    for (let i = 0; i < ds.length; i++) {
+        mult *= (1 - (ns[i] / 360) * (ds[i] / 100));
+    }
+
+    let result = null;
+    switch (nullableVariable) {
+        case 'fv': {
+            result = 'FV = ' + round(pv / mult)
+
+            break;
+        }
+        case 'pv': {
+            result = 'PV = ' + round(fv * mult)
+            break;
+        }
+    }
+
+    document.querySelector('.result-su-p').innerHTML = result
 });
 
 function round(x) {
