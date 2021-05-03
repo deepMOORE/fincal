@@ -18,3 +18,7 @@ rect:hover {
 .calc-result {
     font-size: 70px;
 }
+
+.container {
+    margin-bottom: 20px;
+}
