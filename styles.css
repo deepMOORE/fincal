@@ -17,6 +17,9 @@ rect:hover {
 
 .calc-result {
     font-size: 70px;
+    transition: 1s;
+    animation: show 3s 1;
+    animation-delay: 0s;
 }
 
 .container {
@@ -26,3 +29,13 @@ rect:hover {
 .dump {
     border: aliceblue;
 }
+
+@keyframes show{
+    0%{
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
